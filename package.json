@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "scripts": {
-    "test": "node tests/check-netlist.cjs && node tests/check-cache.cjs && node tests/check-browser.cjs",
+    "test": "node tests/check-netlist.cjs && node tests/check-cache.cjs && node tests/check-browser.cjs && node tests/check-scope.cjs",
     "test:full": "node tests/check-browser.cjs --full"
   },
   "devDependencies": {

@@ -6,9 +6,11 @@
 #spiceStatus{border:1px solid #d8e6ee;border-radius:7px;background:#eef6fb;color:#397397;padding:10px;line-height:1.6;overflow-wrap:anywhere}
 #spiceView,#spiceExport{font-size:11px;padding:8px;margin:4px 0;max-width:100%}
 #pfcWave{min-height:160px;height:auto;width:100%;background:#192d3c}#spiceNetlist,#spiceLog{padding:14px;background:#f6f8fb;overflow-wrap:anywhere}
-.scope .tools{display:none!important}.scope .heading{padding-bottom:0}.scope .heading button{display:none}
+.scope .tools{display:flex}.scope .heading{padding-bottom:0}
 #loadProgramRows input{width:100%;padding:6px;border:1px solid #d0dfeb;border-radius:4px}#loadProgramRows td{padding:3px;font-size:11px}#loadProgramRows button{padding:3px 6px;border:0}
 #loadProgramEditor table{width:100%;table-layout:fixed}#loadProgramEditor table th{font-size:10px;font-weight:400;color:#71899c}
 #chipSelect,#pfcOffline,#reset{display:none}
 
 label[for="chipSelect"]{display:none}
+
+.scope .tools[hidden]{display:none!important}.spice-scope-tools{font-size:12px;padding-top:12px!important}.spice-scope-tools button{font-size:12px}.spice-scope-tools input{width:65px}#spiceCursorControls:not([hidden]){display:inline-flex;align-items:center;gap:6px}#spiceCursorX,#spiceCursorY{width:36px;height:30px;padding:4px}#spiceCursorReadout{white-space:pre-line}
