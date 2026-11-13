@@ -1,6 +1,6 @@
 # EGmicro Lab · V3 ngspice 实验版
 
-计划入口：https://panmingzhu0925-png.github.io/egmicro-lab/v3/EG12523.html
+入口：https://panmingzhu0925-png.github.io/egmicro-lab/v3/EG12523.html
 
 EG12523 双管正激的独立浏览器 SPICE 版本。沿用已确认的用户原理图坐标、走线、位号与器件参数，电路图直接生成 SPICE 网表，由 Web Worker 中的 ngspice WebAssembly 实际求解。没有调用旧版 JavaScript MNA 求解器，也不会改动原仓库的开发版或用户版。
 
@@ -23,6 +23,6 @@ EG12523 双管正激的独立浏览器 SPICE 版本。沿用已确认的用户�
 
 ## 本地运行
 
-在本目录运行 `python -m http.server 8083 --bind 127.0.0.1`，打开 `http://127.0.0.1:8083/v3/EG12523.html`。浏览器Worker模块需HTTP环境，不支持直接用file://打开求解。
+在本目录运行 `node serve.cjs`，打开 `http://127.0.0.1:8083/v3/EG12523.html`。浏览器Worker模块需HTTP环境，不支持直接用file://打开求解。
 
 界面测试：`npm install --ignore-scripts`，然后 `npm test`。默认使用Windows Edge，可通过 `EDGE_EXECUTABLE` 指定其他Chromium路径。`npm run test:full`实际求解完整默认工况，可能耗时数分钟并生成验证与默认缓存文件。
