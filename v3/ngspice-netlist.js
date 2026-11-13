@@ -66,7 +66,9 @@ function compile(c,options={}){
  for(const pin of ['VIN','VCC','OUT','FB','SS','CS','HO','LO'])probe(pin,pin,'V',dv(u(pin),u(pin==='HO'?'VS':'AGND')),'芯片引脚');
  for(const id of ['D8','D1']){const part=p(id);probe('vd'+id,(part.refdes||id)+' 电压','V',dv(n(id+'.a'),n(id+'.b')),'次级二极管');probe('id'+id,(part.refdes||id)+' 电流','A',`@D_${id}[id]`,'次级二极管')}
  const transformer=p('T1'),np=transformer.primaryTurns??16,ns=transformer.secondaryTurns??5,na=transformer.auxiliaryTurns??1,k=transformer.couplingCoefficient??.999,lm=transformer.magnetizingInductance??.002;
- const terms=[{expression:'i(L_p_T1)',factor:1},{expression:'i(L_s_T1)',factor:k*ns/np},{expression:'i(L_a_T1)',factor:k*na/np}];
+ // Equal pairwise k = common magnetizing inductance k*Lp plus each winding's
+ // leakage (1-k)*L. Exclude leakage flux from the core B observation.
+ const terms=[{expression:'i(L_p_T1)',factor:k},{expression:'i(L_s_T1)',factor:k*ns/np},{expression:'i(L_a_T1)',factor:k*na/np}];
  probe('im','励磁等效电流','A','','变压器');probes.at(-1).terms=terms;
  probe('b','磁通密度 B','mT','','变压器');probes.at(-1).terms=terms.map(t=>({...t,factor:t.factor*lm/(np*num(transformer.effectiveAreaMm2??286.9,'Ae')*1e-6)*1000}));
  probe('bridgeI','整流桥输出电流','A','','输入');probes.at(-1).terms=[{expression:'@D_DB11[id]',factor:1},{expression:'@D_DB12[id]',factor:1}];

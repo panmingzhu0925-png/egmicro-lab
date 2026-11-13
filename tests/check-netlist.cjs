@@ -8,6 +8,7 @@ const options={duration:.85,lineHz:50,maxStep:200*1e-9,sampleStep:1000*1e-9},net
 assert.equal(crypto.createHash('sha256').update(net.text).digest('hex'),cache.netlistSHA256);
 assert.equal(cache.sourcePoints,850000);assert(cache.result.numPoints>2000);assert(cache.result.numPoints<cache.sourcePoints);assert(cache.result.data.every(column=>column.values.length===cache.result.numPoints&&column.values.every(Number.isFinite)));
 assert(!net.text.includes('B_probe'));assert(!net.text.includes('.meas'));
+const im=net.probes.find(q=>q.key==='im');assert(Math.abs(im.terms[0].factor*5+im.terms[1].factor*(-16))<1e-12,'Balanced load ampere-turns must not create core magnetizing current');
 const changed=structuredClone(circuit);changed.parts.find(p=>p.id==='R14').value=180000;assert.notEqual(compiler.compile(changed,options).text,net.text);
 changed.wires.push(['ghost.a','U1.CS']);assert.throws(()=>compiler.compile(changed,options),/无效引脚/);
 assert(!read('EG12523.html').includes('eg12523-transient.js'));assert(!read('ngspice-app.js').includes('forwardSolve('));
