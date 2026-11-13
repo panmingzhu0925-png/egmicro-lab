@@ -1,0 +1,5 @@
+node_modules/
+v3/browser-*.png
+v3/*-check.json
+v3/test-netlist.cir
+*.log

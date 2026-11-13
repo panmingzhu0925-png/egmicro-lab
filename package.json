@@ -1,0 +1,12 @@
+{
+  "name": "egmicro-lab-v3",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "test": "node tests/check-netlist.cjs && node tests/check-cache.cjs && node tests/check-browser.cjs",
+    "test:full": "node tests/check-browser.cjs --full"
+  },
+  "devDependencies": {
+    "playwright-core": "1.65.0"
+  }
+}

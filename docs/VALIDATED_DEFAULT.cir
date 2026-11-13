@@ -1,0 +1,359 @@
+EG12523 v3 schematic-driven ngspice engineering preview
+* All R/C/L and wires below originate from the user schematic.
+* V1 [AC]
+V_AC n1 n2 SIN(0 311.1269837220809 50)
+* B1 [DB1]
+D_DB11 n1 n5 GENERIC_D
+D_DB12 n2 n5 GENERIC_D
+D_DB13 0 n1 GENERIC_D
+D_DB14 0 n2 GENERIC_D
+* C1 [C4]
+R_esr_C4 n5 esr_C4 0.02
+C_C4 esr_C4 0 0.00009999999999999999 IC=0
+* Q1 [Q1]
+.model M_Q1 SW(Ron=0.02 Roff=1G Vt=4 Vh=.1)
+V_sense_Q1 n5 drain_Q1 0
+S_Q1 drain_Q1 n8 n9 n8 M_Q1
+D_body_Q1 n8 n5 GENERIC_D
+C_gate_Q1 n9 n8 3.333333333333333e-9
+C_oss_Q1 n5 n8 2e-10
+* Q2 [Q2]
+.model M_Q2 SW(Ron=0.02 Roff=1G Vt=4 Vh=.1)
+V_sense_Q2 n12 drain_Q2 0
+S_Q2 drain_Q2 n13 n14 n13 M_Q2
+D_body_Q2 n13 n12 GENERIC_D
+C_gate_Q2 n14 n13 3.333333333333333e-9
+C_oss_Q2 n12 n13 2e-10
+* T1 [T1]
+R_winding_p_T1 n8 winding_p_T1 0.05
+R_winding_s_T1 n17 winding_s_T1 0.005
+R_winding_a_T1 n18 winding_a_T1 0.1
+L_p_T1 winding_p_T1 n12 0.002
+L_s_T1 winding_s_T1 n19 0.0001953125
+L_a_T1 winding_a_T1 0 0.0000078125
+K_T1 L_p_T1 L_s_T1 L_a_T1 0.999
+* D5 [D2]
+.model M_D2 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_D2 0 n8 M_D2
+* D1 [D3]
+.model M_D3 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_D3 n12 n5 M_D3
+* D3 [D8]
+.model M_D8 D(Is=0.000001 N=1.1 Rs=0.02 Cjo=3e-11)
+D_D8 n17 n20 M_D8
+* D4 [D1]
+.model M_D1 D(Is=0.000001 N=1.1 Rs=0.02 Cjo=3e-11)
+D_D1 n19 n20 M_D1
+* L1 [L1]
+L_L1 n20 n21 0.000047 IC=0
+* C3 [C1]
+R_esr_C1 n21 esr_C1 0.02
+C_C1 esr_C1 n19 0.001 IC=0
+* I1 [LOAD]
+V_set_LOAD set_LOAD 0 PWL(0 2 0.8 2 0.801 17 0.83 17 0.831 2 0.85 2)
+B_LOAD n21 n19 I=v(set_LOAD)*v(n21,n19)/max(v(n21,n19),0.5)
+* R16 [R20]
+R_R20 n22 0 1000
+* R15 [R23]
+R_R23 n13 n22 1100
+* R8 [R21]
+R_R21 n13 0 0.22
+* U1 [U1]
+* R13 [R29]
+R_R29 n25 0 62000
+* C10 [C17]
+C_C17 n26 0 1e-7 IC=0
+* R12 [R13]
+R_R13 0 n27 390000
+* R18 [R22]
+R_R22 n21 n28 18000
+* R20 [R34]
+R_R34 n28 n19 2093
+* C9 [C16]
+R_esr_C16 n29 esr_C16 0.02
+C_C16 esr_C16 0 0.000047 IC=0
+* C7 [C15]
+C_C15 n8 n30 0.000001 IC=0
+* D7 [D5]
+.model M_D5 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_D5 n31 n30 M_D5
+* GP [GP]
+* GS [GS]
+* GU [GU]
+* C2 [C5]
+R_esr_C5 n5 esr_C5 0.02
+C_C5 esr_C5 0 0.00009999999999999999 IC=0
+* C4 [C2]
+R_esr_C2 n21 esr_C2 0.02
+C_C2 esr_C2 n19 0.001 IC=0
+* C5 [C9]
+R_esr_C9 n21 esr_C9 0.02
+C_C9 esr_C9 n19 0.001 IC=0
+* C6 [C10]
+R_esr_C10 n21 esr_C10 0.02
+C_C10 esr_C10 n19 0.001 IC=0
+* R10 [R14]
+R_R14 n35 n29 150000
+* R9 [R16]
+R_R16 n5 n35 150000
+* R7 [R19]
+R_R19 n18 n36 5.1
+* D8 [D6]
+.model M_D6 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_D6 n36 n29 M_D6
+* O1 [U3]
+V_led_U3 n39 led_U3 0
+D_led_U3 led_U3 n40 LED
+B_led_current_U3 led_target_U3 0 V=max(0,i(V_led_U3))
+R_opto_U3 led_target_U3 led_dynamic_U3 1k
+C_opto_U3 led_dynamic_U3 0 1e-8
+B_opto_U3 n41 0 I=max(0,v(led_dynamic_U3))*1*max(0,min(1,v(n41,0)/.2))
+* Z1 [Q3]
+B_error_Q3 error_target_Q3 0 V=v(n28,n19)-2.5
+R_431_Q3 error_target_Q3 error_dynamic_Q3 1k
+C_431_Q3 error_dynamic_Q3 0 2e-8 IC=-2.5
+B_431_Q3 n40 n19 I=max(0,min(0.1,v(error_dynamic_Q3)*0.05))*max(0,min(1,v(n40,n19)/2.5))
+* R14 [R30]
+R_R30 n21 n39 5100
+* R17 [R31]
+R_R31 n39 n40 2000
+* C11 [C20]
+C_C20 n41 0 1e-9 IC=0
+* C12 [C13]
+C_C13 n22 0 1e-10 IC=0
+* R1 [R5]
+R_R5 n44 n9 20
+* R2 [R9]
+R_R9 n44 n45 10
+* D2 [D10]
+.model M_D10 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_D10 n9 n45 M_D10
+* R3 [R6]
+R_R6 n9 n8 100000
+* R4 [R15]
+R_R15 n46 n14 20
+* R6 [R10]
+R_R10 n46 n47 10
+* D6 [D11]
+.model M_D11 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_D11 n14 n47 M_D11
+* R5 [R17]
+R_R17 n14 n13 100000
+* R19 [R32]
+R_R32 n40 n48 7500
+* C14 [C21]
+C_C21 n48 n28 1e-8 IC=0
+* C13 [C19]
+C_C19 n40 n28 1e-9 IC=0
+* J2 [J2]
+* J3 [J3]
+* J4 [J4]
+* J5 [J5]
+* J6 [J6]
+* J7 [J7]
+* J8 [J8]
+* J9 [J9]
+* J10 [J10]
+* J11 [J11]
+* J12 [J12]
+* J13 [J13]
+* J14 [J14]
+* J15 [J15]
+* J16 [J16]
+* J17 [J17]
+* J18 [J18]
+* J19 [J19]
+* J20 [J20]
+* J21 [J21]
+* J22 [J22]
+* J23 [J23]
+* J24 [J24]
+* J25 [J25]
+* J27 [J27]
+* J28 [J28]
+* J29 [J29]
+* J30 [J30]
+* D9 [DX31]
+.model M_DX31 D(Is=1e-9 N=1.5 Rs=0.02 Cjo=3e-11)
+D_DX31 n77 n31 M_DX31
+* R11 [RX32]
+R_RX32 n77 n78 2
+* J33 [J33]
+* J34 [J34]
+* J35 [J35]
+* GX36 [GX36]
+* GX37 [GX37]
+* J38 [J38]
+* J39 [J39]
+* J40 [J40]
+* J41 [J41]
+* J42 [J42]
+* J43 [J43]
+* J44 [J44]
+* J45 [J45]
+* J46 [J46]
+* GX47 [GX47]
+* J48 [J48]
+* GX49 [GX49]
+* J50 [J50]
+* J51 [J51]
+* J52 [J52]
+* J53 [J53]
+* J54 [J54]
+* J55 [J55]
+* J56 [J56]
+* J57 [J57]
+* J58 [J58]
+* J59 [J59]
+* C8 [CX60]
+C_CX60 n31 0 0.000001 IC=0
+* J61 [J61]
+* J62 [J62]
+* J1 [J1]
+R_secondary_reference n19 0 1G
+* EG12523 engineering macro: VIN hysteresis, SS, FB/CS comparator, floating HO.
+V_logic one 0 1
+S_uv enable 0 n29 0 UVLO
+R_enable one enable 1k
+B_uvrun uv_run 0 V=1-v(enable)
+C_fault fault_timer 0 1u IC=0
+B_fault 0 fault_timer I=1u*(v(uv_run)>.5)*(v(n41,0)>4.9)
+B_fault_reset fault_timer 0 I=v(fault_timer)*((v(uv_run)<.5)+(v(n41,0)<4.9))/100
+C_fault_latch fault_latched 0 1n IC=0
+B_fault_set 0 fault_latched I=(v(fault_timer)>.07)*max(0,1-v(fault_latched))/10
+B_fault_clear fault_latched 0 I=(v(uv_run)<.5)*v(fault_latched)/10
+R_fault_hold fault_latched 0 1e12
+B_run run 0 V=v(uv_run)*(v(fault_latched)<.5)
+B_vinload n29 0 I=0.00003*(1-v(run))+v(run)*0.0023
+B_fbpull n41 0 I=(v(n41,0)-5*v(run))/6250
+B_ss 0 n26 I=10u*v(run)*(v(n26,0)<3.5)
+B_ssreset n26 0 I=(1-v(run))*v(n26,0)/10
+V_clock saw 0 PULSE(0 1 0 0.00001439860465116279 10n 1n 0.000014418604651162789)
+B_limit eg_threshold 0 V=max(0,min(.8,min(v(n41,0)/2.8,v(n26,0)/2.8)))
+C_trip trip 0 1n IC=0
+B_trip_set 0 trip I=(v(run)>.5)*.5*(1+tanh((v(saw)-0.005548387096774195)/.0002))*.5*(1+tanh((v(n22,0)-v(eg_threshold))/.001))*max(0,1-v(trip))/10
+B_trip_reset trip 0 I=(.5*(1-tanh((v(saw)-0.0027741935483870973)/.0002))+(v(run)<.5))*v(trip)/10
+R_trip_hold trip 0 1e12
+B_pwm pwm 0 V=(v(run)>.5)*(v(saw)<.46)*(v(trip)<.5)
+B_out out_internal 0 V=v(pwm)*max(0,min(17,v(n29,0)))
+R_out out_internal n78 1
+B_ho ho_internal n8 V=v(pwm)*(v(n31,0)>5)*max(0,min(17,v(n30,n8)))
+R_ho ho_internal n44 .25
+B_lo lo_internal 0 V=v(pwm)*(v(n31,0)>5)*max(0,min(17,v(n31,0)))
+R_lo lo_internal n46 .25
+B_vcc_load n31 0 I=1m*v(run)
+R_leak_n1 n1 0 1e12
+R_leak_n2 n2 0 1e12
+R_leak_n3 n3 0 1e12
+R_leak_n4 n4 0 1e12
+R_leak_n5 n5 0 1e12
+R_leak_n6 n6 0 1e12
+R_leak_n7 n7 0 1e12
+R_leak_n8 n8 0 1e12
+R_leak_n9 n9 0 1e12
+R_leak_n10 n10 0 1e12
+R_leak_n11 n11 0 1e12
+R_leak_n12 n12 0 1e12
+R_leak_n13 n13 0 1e12
+R_leak_n14 n14 0 1e12
+R_leak_n15 n15 0 1e12
+R_leak_n16 n16 0 1e12
+R_leak_n17 n17 0 1e12
+R_leak_n18 n18 0 1e12
+R_leak_n19 n19 0 1e12
+R_leak_n20 n20 0 1e12
+R_leak_n21 n21 0 1e12
+R_leak_n22 n22 0 1e12
+R_leak_n23 n23 0 1e12
+R_leak_n24 n24 0 1e12
+R_leak_n25 n25 0 1e12
+R_leak_n26 n26 0 1e12
+R_leak_n27 n27 0 1e12
+R_leak_n28 n28 0 1e12
+R_leak_n29 n29 0 1e12
+R_leak_n30 n30 0 1e12
+R_leak_n31 n31 0 1e12
+R_leak_n32 n32 0 1e12
+R_leak_n33 n33 0 1e12
+R_leak_n34 n34 0 1e12
+R_leak_n35 n35 0 1e12
+R_leak_n36 n36 0 1e12
+R_leak_n37 n37 0 1e12
+R_leak_n38 n38 0 1e12
+R_leak_n39 n39 0 1e12
+R_leak_n40 n40 0 1e12
+R_leak_n41 n41 0 1e12
+R_leak_n42 n42 0 1e12
+R_leak_n43 n43 0 1e12
+R_leak_n44 n44 0 1e12
+R_leak_n45 n45 0 1e12
+R_leak_n46 n46 0 1e12
+R_leak_n47 n47 0 1e12
+R_leak_n48 n48 0 1e12
+R_leak_n49 n49 0 1e12
+R_leak_n50 n50 0 1e12
+R_leak_n51 n51 0 1e12
+R_leak_n52 n52 0 1e12
+R_leak_n53 n53 0 1e12
+R_leak_n54 n54 0 1e12
+R_leak_n55 n55 0 1e12
+R_leak_n56 n56 0 1e12
+R_leak_n57 n57 0 1e12
+R_leak_n58 n58 0 1e12
+R_leak_n59 n59 0 1e12
+R_leak_n60 n60 0 1e12
+R_leak_n61 n61 0 1e12
+R_leak_n62 n62 0 1e12
+R_leak_n63 n63 0 1e12
+R_leak_n64 n64 0 1e12
+R_leak_n65 n65 0 1e12
+R_leak_n66 n66 0 1e12
+R_leak_n67 n67 0 1e12
+R_leak_n68 n68 0 1e12
+R_leak_n69 n69 0 1e12
+R_leak_n70 n70 0 1e12
+R_leak_n71 n71 0 1e12
+R_leak_n72 n72 0 1e12
+R_leak_n73 n73 0 1e12
+R_leak_n74 n74 0 1e12
+R_leak_n75 n75 0 1e12
+R_leak_n76 n76 0 1e12
+R_leak_n77 n77 0 1e12
+R_leak_n78 n78 0 1e12
+R_leak_n79 n79 0 1e12
+R_leak_n80 n80 0 1e12
+R_leak_n81 n81 0 1e12
+R_leak_n82 n82 0 1e12
+R_leak_n83 n83 0 1e12
+R_leak_n84 n84 0 1e12
+R_leak_n85 n85 0 1e12
+R_leak_n86 n86 0 1e12
+R_leak_n87 n87 0 1e12
+R_leak_n88 n88 0 1e12
+R_leak_n89 n89 0 1e12
+R_leak_n90 n90 0 1e12
+R_leak_n91 n91 0 1e12
+R_leak_n92 n92 0 1e12
+R_leak_n93 n93 0 1e12
+R_leak_n94 n94 0 1e12
+R_leak_n95 n95 0 1e12
+R_leak_n96 n96 0 1e12
+R_leak_n97 n97 0 1e12
+R_leak_n98 n98 0 1e12
+R_leak_n99 n99 0 1e12
+R_leak_n100 n100 0 1e12
+R_leak_n101 n101 0 1e12
+R_leak_n102 n102 0 1e12
+R_leak_n103 n103 0 1e12
+R_leak_n104 n104 0 1e12
+R_leak_n105 n105 0 1e12
+R_leak_n106 n106 0 1e12
+R_leak_n107 n107 0 1e12
+R_leak_n108 n108 0 1e12
+.model UVLO SW(Ron=.001 Roff=1e12 Vt=12 Vh=3)
+.model GENERIC_D D(Is=1n N=1.5 Rs=.02 Cjo=30p)
+.model LED D(Is=1e-18 N=1.6 Rs=20 Cjo=10p)
+.save v(n9) v(n8) v(n5) i(V_sense_Q1) v(n14) v(n13) v(n12) i(V_sense_Q2) i(L_p_T1) i(L_s_T1) v(n21) v(n19) i(L_L1) v(set_LOAD) v(n1) v(n2) v(n29) v(n31) v(n78) v(n41) v(n26) v(n22) v(n44) v(n46) v(n17) v(n20) @D_D8[id] @D_D1[id] i(L_a_T1) @D_DB11[id] @D_DB12[id] @C_C4[i] @C_C5[i]
+.options method=gear reltol=.002 abstol=1u vntol=1u itl4=100 gmin=1e-9 interp
+.tran 0.0000010000000000000002 0.85 0 2.0000000000000002e-7 UIC
+.end

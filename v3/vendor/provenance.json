@@ -1,0 +1,11 @@
+{
+  "package": "eecircuit-engine",
+  "version": "1.9.0",
+  "npmTarballSHA1": "406a580b376296a0405f8905fa5f5aa4d2abb0ac",
+  "source": "https://github.com/eelab-dev/EEcircuit-engine",
+  "change": "Extract embedded WASM data URL into spice.wasm; no simulation code changes",
+  "hashes": {
+    "eecircuit-engine.mjs": "a5fa3e057ce4dbbcc0330becb6f7e198a5f1b9842af8310987d7a32849c3bedd",
+    "spice.wasm": "0c4bef30f07698221b38c17d731e909548122abfd10c7286ddd10da102315004"
+  }
+}

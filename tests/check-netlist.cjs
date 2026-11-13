@@ -1,0 +1,16 @@
+const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const root=path.resolve(__dirname,'../v3'),read=file=>fs.readFileSync(path.join(root,file),'utf8'),compiler=require('../v3/ngspice-netlist.js');
+const source=read('eg12523-core.js'),context=vm.createContext({forwardDefault(){throw Error('old layout must not run')},renderEditor(){}});
+vm.runInContext(source.slice(source.indexOf('// User-authored layout is the default')),context);
+const circuit=JSON.parse(vm.runInContext('JSON.stringify(forwardDefault())',context)),confirmed=JSON.parse(read('confirmed-default.json')).circuit;
+assert.deepEqual(circuit,confirmed);
+const options={duration:.85,lineHz:50,maxStep:200*1e-9,sampleStep:1000*1e-9},net=compiler.compile(circuit,options),cache=JSON.parse(read('default-wave-cache.json'));
+assert.equal(crypto.createHash('sha256').update(net.text).digest('hex'),cache.netlistSHA256);
+assert.equal(cache.sourcePoints,850000);assert(cache.result.numPoints>2000);assert(cache.result.numPoints<cache.sourcePoints);assert(cache.result.data.every(column=>column.values.length===cache.result.numPoints&&column.values.every(Number.isFinite)));
+assert(!net.text.includes('B_probe'));assert(!net.text.includes('.meas'));
+const changed=structuredClone(circuit);changed.parts.find(p=>p.id==='R14').value=180000;assert.notEqual(compiler.compile(changed,options).text,net.text);
+changed.wires.push(['ghost.a','U1.CS']);assert.throws(()=>compiler.compile(changed,options),/无效引脚/);
+assert(!read('EG12523.html').includes('eg12523-transient.js'));assert(!read('ngspice-app.js').includes('forwardSolve('));
+assert(source.includes("CHIP_STORAGE_PREFIX='eg12523-v3-ngspice'"));
+const manifest=JSON.parse(read('vendor/provenance.json'));for(const [name,hash]of Object.entries(manifest.hashes))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'vendor',name))).digest('hex'),hash);
+console.log('PASS: original layout/values, SPICE graph edits, invalid pins, true cached results/signature, isolated storage, WASM assets');

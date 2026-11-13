@@ -1,0 +1,14 @@
+/* V3 keeps the established circuit layout; styles affect surrounding controls. */
+#simulationMount label,#simulationMount~div>label{display:block;color:#526e87;font-size:12px;line-height:1.8;margin:14px 0 8px}
+#simulationMount input,#simulationMount~div input{max-width:100%;width:100%;border:1px solid #cdddec;border-radius:6px;background:white;color:#1d3d56;padding:8px;font-size:13px}
+#spiceStart,#spiceEnd{width:45%!important;display:inline-block}
+#fullRun{background:#327ab4;color:white;border-color:#327ab4;flex:1}#fullStop{flex:1}#fullRun:disabled{background:#e7edf2;color:#91a3af;border-color:#e7edf2}#fullStop.active{background:#cb6a50;color:white;border-color:#cb6a50}#fullStop:disabled{opacity:.45;cursor:default}
+#spiceStatus{border:1px solid #d8e6ee;border-radius:7px;background:#eef6fb;color:#397397;padding:10px;line-height:1.6;overflow-wrap:anywhere}
+#spiceView,#spiceExport{font-size:11px;padding:8px;margin:4px 0;max-width:100%}
+#pfcWave{min-height:160px;height:auto;width:100%;background:#192d3c}#spiceNetlist,#spiceLog{padding:14px;background:#f6f8fb;overflow-wrap:anywhere}
+.scope .tools{display:none!important}.scope .heading{padding-bottom:0}.scope .heading button{display:none}
+#loadProgramRows input{width:100%;padding:6px;border:1px solid #d0dfeb;border-radius:4px}#loadProgramRows td{padding:3px;font-size:11px}#loadProgramRows button{padding:3px 6px;border:0}
+#loadProgramEditor table{width:100%;table-layout:fixed}#loadProgramEditor table th{font-size:10px;font-weight:400;color:#71899c}
+#chipSelect,#pfcOffline,#reset{display:none}
+
+label[for="chipSelect"]{display:none}
